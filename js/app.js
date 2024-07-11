@@ -21,6 +21,10 @@ function handlePieceClick(event) {
     const piece = event.target;
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
+
+    if(gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+       gameState.selectedPiece = {row, col}; 
+    }
 }
 
 function highlightMoves() {
