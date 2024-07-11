@@ -88,10 +88,10 @@ h2{
     text-align: center;
 }
 
-.red-checker {
-    background-image: url('../images/red-checker.png');
+.red-pawn {
+    background-image: url('../images/red-pawn.png');
 }
 
-.black-checker {
-    background-image: url('../images/black-checker.png');
+.black-pawn {
+    background-image: url('../images/black-pawn.png');
 }

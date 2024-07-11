@@ -1,1 +1,1 @@
-const gameState = require('./js/data.js');
+const gameState = require('./data.js');
