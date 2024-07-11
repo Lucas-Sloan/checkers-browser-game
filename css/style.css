@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
 body{
@@ -71,10 +72,16 @@ h2{
 
 .board {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
     max-width: 800px;
     margin: 20px 0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 #winnerMessage {
@@ -85,7 +92,17 @@ h2{
     width: 12.5%;
     aspect-ratio: 1/1;
     border: 3px solid black;
-    text-align: center;
+}
+
+
+.row:nth-child(odd) .sqr:nth-child(even),
+.row:nth-child(even) .sqr:nth-child(odd) {
+    background-color: black;
+}
+
+.row:nth-child(odd) .sqr:nth-child(odd),
+.row:nth-child(even) .sqr:nth-child(even) {
+    background-color: white;
 }
 
 .red-pawn {
