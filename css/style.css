@@ -92,6 +92,11 @@ h2{
     width: 12.5%;
     aspect-ratio: 1/1;
     border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 
@@ -111,4 +116,12 @@ h2{
 
 .black-pawn {
     background-image: url('../images/black-pawn.png');
+}
+
+.red-king {
+    background-image: url('../images/red-king.png');
+}
+
+.black-king {
+    background-image: url('../images/black-king.png');
 }
