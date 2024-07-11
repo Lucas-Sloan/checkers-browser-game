@@ -1,4 +1,4 @@
-const gameState = {
+let gameState = {
 
     board: [
 
@@ -20,6 +20,13 @@ const gameState = {
 
     ],
 
-    currentPlayer: "black"
+    currentPlayer: "black",
 
+    redScore: 0,
+
+    blackScore: 0,
+
+    selectedPiece: null,
+    
+    validMoves: []
 };
