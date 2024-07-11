@@ -23,6 +23,20 @@ h1, h2 {
     margin: 0;
 }
 
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+}
+
+.instructions, .game, .score {
+    flex: 1;
+    padding: 10px;
+    background-color: #444;
+    margin: 0 10px;
+}
+
 .board {
     display: flex;
     flex-wrap: wrap;
