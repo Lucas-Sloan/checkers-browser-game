@@ -2,6 +2,32 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color: rgb(101, 99, 99);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+}
+
+h1, h2 {
+    color: white;
+}
+
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+}
+
+.winnerMessage {
+    display: flex;
+}
+.sqr {
+    width: 14%;
+    aspect-ratio: 1/1;
+    border: 3px solid black;
+    text-align: center;
+}
+
 .red-checker {
     background-image: url('../images/red-checker.png');
 }
