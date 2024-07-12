@@ -99,8 +99,8 @@ h2{
     background-repeat: no-repeat;
 }
 
-.highlight {
-    background-color: rgba(255, 255, 0, 0.6);
+.highlight{
+    background-color: rgba(255, 255, 0, 0.6) !important;
 }
 
 .row:nth-child(odd) .sqr:nth-child(even),
