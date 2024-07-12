@@ -208,7 +208,27 @@ function isValidCapture(startRow, startCol, endRow, endCol) {
 }
 
 function getCaptures() {
+    const captures = [];
 
+    //Iterate through the board
+    for (let row =0; row < 8; row++) {
+        for (let col =0; col < 8; col++) {
+            //Check if current piece belongs to current player
+            if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+               // Get possible moves for piece
+               const possibleMoves = getPossibleMoves(row, col, gameState.board[row][col]); 
+
+               //Check move for valid capture
+               for (let move of possibleMoves) {
+                const [endRow, endCol] = move;
+                if (isValidCapture(row, col, endRow, endCol)) {
+                    captures.push({ start: { row, col }, end: { row: endRow, col: endCol } });
+                }
+               }
+            }
+        }
+    }
+    return captures;
 }
 
 function renderBoard() {
