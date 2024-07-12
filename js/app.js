@@ -16,6 +16,9 @@ const blackKingImage = 'images/black-king.png';
 function initBoard() {
     renderBoard();
     boardElement.addEventListener('click', handlePieceClick);
+    squareElement.forEach(square => {
+        square.addEventListener('click' , handleMoveClick);
+    });
     resetButton.addEventListener('click', resetGame);
 }
 
@@ -24,31 +27,60 @@ function handlePieceClick(event) {
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
 
-    if(isValidCoordinates(row, col) && gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
-       gameState.selectedPiece = { row, col }; 
-       highlightMoves();
+    if(!isValidCoordinates(row, col) || gameState.board[row][col] === '' ) {
+       return;
     }
+    //clear any previously selected piece
+    document.querySelectorAll('.movable').forEach(el => el.classList.remove('movable'));
+    //Highlight the selected piece
+    if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+        piece.classList.add('movable');
+        gameState.selectedPiece = { row, col };
+        clearHighlights();
+        highlightMoves();
+
+   }
 }
 function isValidCoordinates(row, col) {
     return row >= 0 && row < gameState.board.length && col >= 0 && col < gameState.board[row].length;
 }
 
 function highlightMoves() {
-    const {row, col} = gameState.selectedPiece;
-    const possibleMoves = getPossibleMoves(row, col);
+    const { row, col } = gameState.selectedPiece;
+    const possibleMoves = getPossibleMoves(row, col, gameState.board[row][col]);
 
     for (let move of possibleMoves) {
         const [endRow, endCol] = move;
-        const squareId = endRow *8 + endCol;
+        const squareId = endRow * 8 + endCol;
         squareElement[squareId].classList.add('highlight');
     }
 }
 
 function clearHighlights() {
-
+    document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
 }
 
 function handleMoveClick(event) {
+    // Get target element
+    const target = event.target;
+
+    // Calculate row index of target
+    const targetId = parseInt(target.id);
+    const row = Math.floor(targetId / 8);
+
+    // Calculate column index of target
+    const col = targetId % 8;
+
+    // Get currently selected piece
+    //const selectedPiece = document.querySelector('.movable div);
+
+    // Extract starting row index of selected piece
+    const startRow = parseInt(selectedPiece.dataset.row);
+    // Extract starting column index of selected piece
+    const startCol = parseInt(selectedPiece.dataset.col);
+
+    //Move selected piece to new position
+    movePiece({ row: startRow, col: startCol }, row, col);
 
 }
 
@@ -100,7 +132,29 @@ function isValidCapture() {
 
 }
 
-function movePiece() {
+function movePiece(start, endRow, endCol) {
+    //Extract row and col from starting position
+    const row = start.row;
+    const col = start.col;
+    
+    //Get piece at starting position
+    const piece = gameState.board[row][col];
+    
+    //Clear the starting position
+    gameState.board[row][col] = '';
+
+    //Move piece to target position
+    if (piece === 'r') {
+        // Promote to red king
+        gameState.board[endRow][endCol] = 'rk';
+    } else if (piece === 'b') {
+        // Promote to black king
+        gameState.board[endRow][endCol] = 'bk';
+    } else {
+        // For kings, move them as is
+        gameState.board[endRow][endCol] = piece;
+    }
+
 
 }
 
