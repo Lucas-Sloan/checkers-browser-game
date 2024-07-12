@@ -141,10 +141,6 @@ function getPossibleMoves(row, col, piece) {
     return moves;
 }
 
-function getCaptures() {
-
-}
-
 function isValidMove(row, col) {
     // Check if the move is within the board
     if (row >= 0 && row < 8 && col >= 0 && col < 8) {
@@ -154,10 +150,6 @@ function isValidMove(row, col) {
         return isEmpty;
     }
     return false;
-}
-
-function isValidCapture() {
-
 }
 
 function movePiece(start, endRow, endCol) {
@@ -183,6 +175,39 @@ function movePiece(start, endRow, endCol) {
         gameState.board[endRow][endCol] = piece;
     }
 
+
+}
+
+function isValidCapture(startRow, startCol, endRow, endCol) {
+    //Check if target is on the board
+    if (!isValidCoordinates(endRow, endCol)) {
+        return false;
+    }
+
+    //Check if end position is empty
+    if(gameState.board[endRow][endCol] !== '') {
+        return false;
+    }
+
+    //Determine direction of capture
+    const captureDirection = {
+        row: (endRow - startRow) / 2,
+        col: (endCol - startCol) / 2
+    };
+
+    //Calculate position of piece being captured
+    const capturedRow = startRow + captureDirection.row;
+    const capturedCol = startCol + captureDirection.col;
+
+    //Check if there's a piece to capture
+    if(gameState.board[capturedRow][capturedCol] === getOpponentPiece(gameState.currentPlayer)) {
+       return true; 
+    }
+
+    return false;
+}
+
+function getCaptures() {
 
 }
 
