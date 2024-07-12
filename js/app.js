@@ -34,6 +34,10 @@ function handlePieceClick(event) {
        return;
     }
 
+    if (canAnyPieceCapture() && gameState.selectedPiece && gameState.board[row][col].charAt(0) !== gameState.currentPlayer.charAt(0)) {
+        return;
+    }
+
     //clear any previously selected piece
     document.querySelectorAll('.movable').forEach(el => el.classList.remove('movable'));
     //Highlight the selected piece
@@ -111,6 +115,14 @@ function handleMoveClick(event) {
 
     //Extract starting position of selected piece
     const { row: startRow, col: startCol } = gameState.selectedPiece;
+
+    //Check if capture moves are available
+    if(canPieceCapture(startRow, startCol)) {
+        //If selected move is not a capture, dont allow the move
+        if (!isValidCapture(startRow, startCol, row, col)) {
+            return;
+        }
+    }
 
     //Move selected piece to new position
     movePiece({ row: startRow, col: startCol }, row, col);
@@ -300,12 +312,28 @@ function renderBoard() {
 }
 
 function switchPlayer() {
+    if (canAnyPieceCapture()) {
+        return;
+    }
     gameState.selectedPiece = null;
     if(gameState.currentPlayer === 'black') {
         gameState.currentPlayer ='red';
     } else {
         gameState.currentPlayer = 'black'
     }
+}
+// function to stop players from selecting a different piece after a capture
+function canAnyPieceCapture() {
+    for (let row = 0; row < 8; row++) {
+        for (let col =0; col < 8; col++) {
+            if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+                if (canPieceCapture(row, col)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 function checkWin() {
