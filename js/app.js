@@ -28,22 +28,24 @@ function handlePieceClick(event) {
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
 
-    // console.log(`handlePieceClick - row: ${row}, col: ${col}`);
-
+    //If selected coordinates are invalid or the selected square is empty, return early
     if(!isValidCoordinates(row, col) || gameState.board[row][col] === '' ) {
        return;
     }
 
+    //If piece can capture and piece is already selected, but the clicked piece doesn't belong to the current player, return early 
     if (canAnyPieceCapture() && gameState.selectedPiece && gameState.board[row][col].charAt(0) !== gameState.currentPlayer.charAt(0)) {
         return;
     }
 
+    //If piece can capture and the selected piece cannot capture, return early
     if (canAnyPieceCapture() && !canPieceCapture(row, col)) {
         return;
     }
 
     //clear any previously selected piece
     document.querySelectorAll('.movable').forEach(el => el.classList.remove('movable'));
+
     //Highlight the selected piece
     if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
         piece.classList.add('movable');
@@ -64,8 +66,6 @@ function isValidCoordinates(row, col) {
             isValidCol = true;
         }
     }
-
-    // console.log(`isValidCoordinates - row: ${row}, col: ${col}, isValidRow: ${isValidRow}, isValidCol: ${isValidCol}`);
     //return true if valid
     return isValidRow && isValidCol;
 }
@@ -73,8 +73,6 @@ function isValidCoordinates(row, col) {
 function highlightMoves() {
     const { row, col } = gameState.selectedPiece;
     const { moves, captureMoves } = getPossibleMoves(row, col, gameState.board[row][col]);
-
-    // console.log(`highlightMoves - possibleMoves: ${JSON.stringify(possibleMoves)}`);
 
     let possibleMoves;
     //Highlight capture moves first
@@ -105,8 +103,6 @@ function handleMoveClick(event) {
     // Calculate column index of target
     const col = parseInt(targetId) % 8;
 
-    // console.log(`handleMoveClick - row: ${row}, col: ${col}`);
-
     //If no piece is selected, return
     if (!gameState.selectedPiece) {
         return;
@@ -133,16 +129,20 @@ function handleMoveClick(event) {
     clearHighlights();
     renderBoard();
 
-    //Allow double jumps
+    //If move is a capture by moving 2 squares
     if (Math.abs(row - startRow) === 2) {
+        //check if piece can capture again
         if (canPieceCapture(row, col)) {
+            //set the newly captured piece as selected piece and highlight moves
             gameState.selectedPiece = { row, col };
             highlightMoves();
         } else {
+            //If no captures are left, switch player and clear the selected piece
             switchPlayer();
             gameState.selectedPiece = null;
         }
     } else {
+        //if original move is not a capture, switch player and clear the selection
         switchPlayer();
         gameState.selectedPiece = null;
     }
@@ -164,14 +164,12 @@ function getPossibleMoves(row, col, piece) {
         directions.push([-1, -1], [-1, 1], [1, -1], [1,1]);
     }
 
-    // console.log(`getPossibleMoves - piece: ${piece}, directions: ${JSON.stringify(directions)}`);
-
     //Calculate possible moves
     for (const [dRow, dCol] of directions) {
         const newRow = row + dRow;
         const newCol = col + dCol;
         const isValid = isValidMove(newRow, newCol);
-        // console.log(`getPossibleMoves - checking move to (${newRow}, ${newCol}), isValid: ${isValid}`);
+
         //Check for regular moves
         if (isValidMove(newRow, newCol)) {
             moves.push([newRow, newCol]);
@@ -184,7 +182,7 @@ function getPossibleMoves(row, col, piece) {
             captureMoves.push([captureRow, captureCol]);
         }
     }
-    // console.log(`getPossibleMoves - moves: ${JSON.stringify(moves)}`);
+
     //Determine which moves to return
    return { moves, captureMoves };
 }
@@ -194,7 +192,6 @@ function isValidMove(row, col) {
     if (row >= 0 && row < 8 && col >= 0 && col < 8) {
         // Check if the target square is empty
         const isEmpty = gameState.board[row][col] === "";
-        // console.log(`isValidMove - position (${row}, ${col}) is empty: ${isEmpty}`);
         return isEmpty;
     }
     return false;
@@ -258,7 +255,6 @@ function isValidCapture(startRow, startCol, endRow, endCol) {
     if (!isValidCoordinates(capturedRow, capturedCol)) {
         return false;
     }
-    // console.log(`isValidCapture - start: (${startRow}, ${startCol}), end: (${endRow}, ${endCol}), capture: (${capturedRow}, ${capturedCol})`);
     //Check if there's a piece to capture
     const opponentPiece = gameState.board[capturedRow][capturedCol];
     return opponentPiece && opponentPiece.charAt(0) !== gameState.currentPlayer.charAt(0);
@@ -324,17 +320,23 @@ function switchPlayer() {
         gameState.currentPlayer = 'black'
     }
 }
-// function to stop players from selecting a different piece after a capture
+
 function canAnyPieceCapture() {
+    //iterate through all rows
     for (let row = 0; row < 8; row++) {
+        //iterate through all columns
         for (let col =0; col < 8; col++) {
+            //check if piece belongs to current player
             if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+                //check if piece can make a capture
                 if (canPieceCapture(row, col)) {
+                    //if any piece can capture, return true
                     return true;
                 }
             }
         }
     }
+    //if no pieces can capture, return false
     return false;
 }
 
