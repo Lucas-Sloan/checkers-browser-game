@@ -38,6 +38,10 @@ function handlePieceClick(event) {
         return;
     }
 
+    if (canAnyPieceCapture() && !canPieceCapture(row, col)) {
+        return;
+    }
+
     //clear any previously selected piece
     document.querySelectorAll('.movable').forEach(el => el.classList.remove('movable'));
     //Highlight the selected piece
@@ -138,6 +142,7 @@ function handleMoveClick(event) {
             winnerMessage.textContent = `${gameState.currentPlayer.charAt(0).toUpperCase() + gameState.currentPlayer.slice(1)} wins!`;
         } else {
             switchPlayer();
+            gameState.selectedPiece = null;
         }
     }
 
