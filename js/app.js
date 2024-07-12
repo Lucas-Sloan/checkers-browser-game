@@ -26,10 +26,11 @@ function handlePieceClick(event) {
     const piece = event.target;
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
-
+    
     if(!isValidCoordinates(row, col) || gameState.board[row][col] === '' ) {
        return;
     }
+
     //clear any previously selected piece
     document.querySelectorAll('.movable').forEach(el => el.classList.remove('movable'));
     //Highlight the selected piece
@@ -67,20 +68,19 @@ function handleMoveClick(event) {
     // Calculate row index of target
     const targetId = parseInt(target.id);
     const row = Math.floor(targetId / 8);
-
     // Calculate column index of target
-    const col = targetId % 8;
+    const col = parseInt(targetId) % 8;
 
-    // Get currently selected piece
-    //const selectedPiece = document.querySelector('.movable div);
-
-    // Extract starting row index of selected piece
-    const startRow = parseInt(selectedPiece.dataset.row);
-    // Extract starting column index of selected piece
-    const startCol = parseInt(selectedPiece.dataset.col);
+    if (!gameState.selectedPiece) {
+        return;
+    }
+   
+    const { row: startRow, col: startCol } = gameState.selectedPiece;
 
     //Move selected piece to new position
     movePiece({ row: startRow, col: startCol }, row, col);
+    clearHighlights();
+    renderBoard();
 
 }
 
@@ -155,10 +155,6 @@ function movePiece(start, endRow, endCol) {
         gameState.board[endRow][endCol] = piece;
     }
 
-
-}
-
-function promoteKing() {
 
 }
 
