@@ -135,6 +135,13 @@ function getPossibleMoves(row, col, piece) {
         if (isValidMove(newRow, newCol)) {
             moves.push([newRow, newCol]);
         }
+
+        //Capture moves
+        const captureRow = row + 2 * dRow;
+        const captureCol = col + 2 * dCol;
+        if (isValidCapture(row, col, captureRow, captureCol)) {
+            moves.push([captureRow, captureCol]);
+        }
     }
     // console.log(`getPossibleMoves - moves: ${JSON.stringify(moves)}`);
 
@@ -162,6 +169,13 @@ function movePiece(start, endRow, endCol) {
     
     //Clear the starting position
     gameState.board[row][col] = '';
+
+    //Handle capture
+    if (Math.abs(endRow - row) === 2 && Math.abs(endCol - col) === 2) {
+        const capturedRow = (row + endRow) / 2;
+        const capturedCol = (col + endCol) /2;
+        gameState.board[capturedRow][capturedCol] = '';
+    }
 
     //Move piece to target position
     if (piece === 'r' && endRow === 7) {
@@ -200,11 +214,8 @@ function isValidCapture(startRow, startCol, endRow, endCol) {
     const capturedCol = startCol + captureDirection.col;
 
     //Check if there's a piece to capture
-    if(gameState.board[capturedRow][capturedCol] === getOpponentPiece(gameState.currentPlayer)) {
-       return true; 
-    }
-
-    return false;
+    const opponentPiece = gameState.board[capturedRow][capturedCol];
+    return opponentPiece && opponentPiece.charAt(0) !== gameState.currentPlayer.charAt(0);
 }
 
 function getCaptures() {
