@@ -134,18 +134,18 @@ function handleMoveClick(event) {
     renderBoard();
 
     //Allow double jumps
-    if (canPieceCapture(row, col)) {
-        gameState.selectedPiece = { row, col };
-        highlightMoves();
-    } else {
-        if(checkWin()) {
-            winnerMessage.textContent = `${gameState.currentPlayer.charAt(0).toUpperCase() + gameState.currentPlayer.slice(1)} wins!`;
+    if (Math.abs(row - startRow) === 2) {
+        if (canPieceCapture(row, col)) {
+            gameState.selectedPiece = { row, col };
+            highlightMoves();
         } else {
             switchPlayer();
             gameState.selectedPiece = null;
         }
+    } else {
+        switchPlayer();
+        gameState.selectedPiece = null;
     }
-
 }
 
 function getPossibleMoves(row, col, piece) {
@@ -317,9 +317,6 @@ function renderBoard() {
 }
 
 function switchPlayer() {
-    if (canAnyPieceCapture()) {
-        return;
-    }
     gameState.selectedPiece = null;
     if(gameState.currentPlayer === 'black') {
         gameState.currentPlayer ='red';
