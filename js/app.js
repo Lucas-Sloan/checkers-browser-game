@@ -26,7 +26,7 @@ function handlePieceClick(event) {
     const piece = event.target;
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
-    
+
     if(!isValidCoordinates(row, col) || gameState.board[row][col] === '' ) {
        return;
     }
@@ -144,10 +144,10 @@ function movePiece(start, endRow, endCol) {
     gameState.board[row][col] = '';
 
     //Move piece to target position
-    if (piece === 'r') {
+    if (piece === 'r' && endRow === 7) {
         // Promote to red king
         gameState.board[endRow][endCol] = 'rk';
-    } else if (piece === 'b') {
+    } else if (piece === 'b' && endRow == 0) {
         // Promote to black king
         gameState.board[endRow][endCol] = 'bk';
     } else {
