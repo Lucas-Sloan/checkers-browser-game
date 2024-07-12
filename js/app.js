@@ -47,7 +47,19 @@ function handlePieceClick(event) {
 }
 
 function isValidCoordinates(row, col) {
-    return row >= 0 && row < gameState.board.length && col >= 0 && col < gameState.board[row].length;
+    //Check if row index is within range
+    const isValidRow = row >= 0 && row < gameState.board.length;
+    let isValidCol = false;
+    //If row is valid, check if column index is within range
+    if (isValidRow) {
+        if(col >=0 && col < gameState.board[row]?.length) {
+            isValidCol = true;
+        }
+    }
+
+    // console.log(`isValidCoordinates - row: ${row}, col: ${col}, isValidRow: ${isValidRow}, isValidCol: ${isValidCol}`);
+    //return true if valid
+    return isValidRow && isValidCol;
 }
 
 function highlightMoves() {
@@ -97,16 +109,23 @@ function handleMoveClick(event) {
     clearHighlights();
     renderBoard();
 
-    if(checkWin()) {
-        winnerMessage.textContent = `${gameState.currentPlayer.charAt(0).toUpperCase() + gameState.currentPlayer.slice(1)} wins!`;
+    //Allow double jumps
+    if (canPieceCapture(row, col)) {
+        gameState.selectedPiece = { row, col };
+        highlightMoves();
     } else {
-        switchPlayer();
+        if(checkWin()) {
+            winnerMessage.textContent = `${gameState.currentPlayer.charAt(0).toUpperCase() + gameState.currentPlayer.slice(1)} wins!`;
+        } else {
+            switchPlayer();
+        }
     }
 
 }
 
 function getPossibleMoves(row, col, piece) {
     const moves = [];
+    const captureMoves = [];
     const directions =[];
 
     //Determine move directions
@@ -117,11 +136,7 @@ function getPossibleMoves(row, col, piece) {
     }
     //Additional directions for kings
     if (piece === 'rk' || piece === 'bk') {
-        if (piece === 'r' || piece === 'rk') {
-            directions.push([-1, -1], [-1, 1]);
-        } else if (piece === 'b' || piece === 'bk') {
-            directions.push([1, -1], [1, 1]);
-        }
+        directions.push([-1, -1], [-1, 1], [1, -1], [1,1]);
     }
 
     // console.log(`getPossibleMoves - piece: ${piece}, directions: ${JSON.stringify(directions)}`);
@@ -132,20 +147,25 @@ function getPossibleMoves(row, col, piece) {
         const newCol = col + dCol;
         const isValid = isValidMove(newRow, newCol);
         // console.log(`getPossibleMoves - checking move to (${newRow}, ${newCol}), isValid: ${isValid}`);
+        //Check for regular moves
         if (isValidMove(newRow, newCol)) {
             moves.push([newRow, newCol]);
         }
 
-        //Capture moves
+        //Check for capture moves
         const captureRow = row + 2 * dRow;
         const captureCol = col + 2 * dCol;
         if (isValidCapture(row, col, captureRow, captureCol)) {
-            moves.push([captureRow, captureCol]);
+            captureMoves.push([captureRow, captureCol]);
         }
     }
     // console.log(`getPossibleMoves - moves: ${JSON.stringify(moves)}`);
-
-    return moves;
+    //Determine which moves to return
+    if (captureMoves.length > 0) {
+        return captureMoves;
+    } else {
+        return moves;
+    }
 }
 
 function isValidMove(row, col) {
@@ -213,6 +233,11 @@ function isValidCapture(startRow, startCol, endRow, endCol) {
     const capturedRow = startRow + captureDirection.row;
     const capturedCol = startCol + captureDirection.col;
 
+    //Check if capturedRow and capturedCol are within bounds
+    if (!isValidCoordinates(capturedRow, capturedCol)) {
+        return false;
+    }
+    // console.log(`isValidCapture - start: (${startRow}, ${startCol}), end: (${endRow}, ${endCol}), capture: (${capturedRow}, ${capturedCol})`);
     //Check if there's a piece to capture
     const opponentPiece = gameState.board[capturedRow][capturedCol];
     return opponentPiece && opponentPiece.charAt(0) !== gameState.currentPlayer.charAt(0);
@@ -242,6 +267,19 @@ function getCaptures() {
     return captures;
 }
 
+function canPieceCapture(row, col) {
+    const piece = gameState.board[row][col];
+    const possibleMoves = getPossibleMoves(row, col, piece);
+
+    for (let move of possibleMoves) {
+        const [endRow, endCol] = move;
+        if(isValidCapture(row, col, endRow, endCol)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function renderBoard() {
     for (let row = 0; row <8; row++) {
         for (let col = 0; col < 8; col++) {
@@ -264,6 +302,7 @@ function renderBoard() {
 }
 
 function switchPlayer() {
+    gameState.selectedPiece = null;
     if(gameState.currentPlayer === 'black') {
         gameState.currentPlayer ='red';
     } else {
