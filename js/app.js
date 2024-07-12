@@ -11,6 +11,7 @@ const blackPawnImage = 'images/black-pawn.png';
 const redKingImage = 'images/red-king.png';
 const blackKingImage = 'images/black-king.png';
 
+
 /*-------------------------------- Functions --------------------------------*/
 
 function initBoard() {
@@ -27,6 +28,8 @@ function handlePieceClick(event) {
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
 
+    // console.log(`handlePieceClick - row: ${row}, col: ${col}`);
+
     if(!isValidCoordinates(row, col) || gameState.board[row][col] === '' ) {
        return;
     }
@@ -42,6 +45,7 @@ function handlePieceClick(event) {
 
    }
 }
+
 function isValidCoordinates(row, col) {
     return row >= 0 && row < gameState.board.length && col >= 0 && col < gameState.board[row].length;
 }
@@ -49,6 +53,8 @@ function isValidCoordinates(row, col) {
 function highlightMoves() {
     const { row, col } = gameState.selectedPiece;
     const possibleMoves = getPossibleMoves(row, col, gameState.board[row][col]);
+
+    // console.log(`highlightMoves - possibleMoves: ${JSON.stringify(possibleMoves)}`);
 
     for (let move of possibleMoves) {
         const [endRow, endCol] = move;
@@ -71,16 +77,31 @@ function handleMoveClick(event) {
     // Calculate column index of target
     const col = parseInt(targetId) % 8;
 
+    // console.log(`handleMoveClick - row: ${row}, col: ${col}`);
+
+    //If no piece is selected, return
     if (!gameState.selectedPiece) {
         return;
     }
-   
+
+    //Ensure target square is highlighted
+    if (!target.classList.contains('highlight')) {
+        return;
+    }
+
+    //Extract starting position of selected piece
     const { row: startRow, col: startCol } = gameState.selectedPiece;
 
     //Move selected piece to new position
     movePiece({ row: startRow, col: startCol }, row, col);
     clearHighlights();
     renderBoard();
+
+    if(checkWin()) {
+        winnerMessage.textContent = `${gameState.currentPlayer.charAt(0).toUpperCase() + gameState.currentPlayer.slice(1)} wins!`;
+    } else {
+        switchPlayer();
+    }
 
 }
 
@@ -90,27 +111,32 @@ function getPossibleMoves(row, col, piece) {
 
     //Determine move directions
     if (piece === 'r' || piece === 'rk') {
-        directions.push([-1, -1], [-1, 1]);
-    } else if (piece === 'b' || piece === 'bk') {
         directions.push([1, -1], [1, 1]);
+    } else if (piece === 'b' || piece === 'bk') {
+        directions.push([-1, -1], [-1, 1]);
     }
     //Additional directions for kings
     if (piece === 'rk' || piece === 'bk') {
         if (piece === 'r' || piece === 'rk') {
-            directions.push([1, -1], [1, 1]);
-        } else if (piece === 'b' || piece === 'bk') {
             directions.push([-1, -1], [-1, 1]);
+        } else if (piece === 'b' || piece === 'bk') {
+            directions.push([1, -1], [1, 1]);
         }
     }
+
+    // console.log(`getPossibleMoves - piece: ${piece}, directions: ${JSON.stringify(directions)}`);
 
     //Calculate possible moves
     for (const [dRow, dCol] of directions) {
         const newRow = row + dRow;
         const newCol = col + dCol;
+        const isValid = isValidMove(newRow, newCol);
+        // console.log(`getPossibleMoves - checking move to (${newRow}, ${newCol}), isValid: ${isValid}`);
         if (isValidMove(newRow, newCol)) {
             moves.push([newRow, newCol]);
         }
     }
+    // console.log(`getPossibleMoves - moves: ${JSON.stringify(moves)}`);
 
     return moves;
 }
@@ -123,7 +149,9 @@ function isValidMove(row, col) {
     // Check if the move is within the board
     if (row >= 0 && row < 8 && col >= 0 && col < 8) {
         // Check if the target square is empty
-        return gameState.board[row][col] === "";
+        const isEmpty = gameState.board[row][col] === "";
+        // console.log(`isValidMove - position (${row}, ${col}) is empty: ${isEmpty}`);
+        return isEmpty;
     }
     return false;
 }
