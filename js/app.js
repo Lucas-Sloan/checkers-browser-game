@@ -64,9 +64,17 @@ function isValidCoordinates(row, col) {
 
 function highlightMoves() {
     const { row, col } = gameState.selectedPiece;
-    const possibleMoves = getPossibleMoves(row, col, gameState.board[row][col]);
+    const { moves, captureMoves } = getPossibleMoves(row, col, gameState.board[row][col]);
 
     // console.log(`highlightMoves - possibleMoves: ${JSON.stringify(possibleMoves)}`);
+
+    let possibleMoves;
+    //Highlight capture moves first
+    if (captureMoves.length > 0) {
+        possibleMoves = captureMoves;
+    } else {
+        possibleMoves = moves;
+    }
 
     for (let move of possibleMoves) {
         const [endRow, endCol] = move;
@@ -161,11 +169,7 @@ function getPossibleMoves(row, col, piece) {
     }
     // console.log(`getPossibleMoves - moves: ${JSON.stringify(moves)}`);
     //Determine which moves to return
-    if (captureMoves.length > 0) {
-        return captureMoves;
-    } else {
-        return moves;
-    }
+   return { moves, captureMoves };
 }
 
 function isValidMove(row, col) {
@@ -269,15 +273,9 @@ function getCaptures() {
 
 function canPieceCapture(row, col) {
     const piece = gameState.board[row][col];
-    const possibleMoves = getPossibleMoves(row, col, piece);
+    const { captureMoves } = getPossibleMoves(row, col, piece);
 
-    for (let move of possibleMoves) {
-        const [endRow, endCol] = move;
-        if(isValidCapture(row, col, endRow, endCol)) {
-            return true;
-        }
-    }
-    return false;
+    return captureMoves.length > 0;
 }
 
 function renderBoard() {
