@@ -15,6 +15,8 @@ const blackKingImage = 'images/black-king.png';
 
 function initBoard() {
     renderBoard();
+    boardElement.addEventListener('click', handlePieceClick);
+    resetButton.addEventListener('click', resetGame);
 }
 
 function handlePieceClick(event) {
@@ -22,13 +24,24 @@ function handlePieceClick(event) {
     const row = parseInt(piece.dataset.row);
     const col = parseInt(piece.dataset.col);
 
-    if(gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
-       gameState.selectedPiece = {row, col}; 
+    if(isValidCoordinates(row, col) && gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+       gameState.selectedPiece = { row, col }; 
+       highlightMoves();
     }
+}
+function isValidCoordinates(row, col) {
+    return row >= 0 && row < gameState.board.length && col >= 0 && col < gameState.board[row].length;
 }
 
 function highlightMoves() {
+    const {row, col} = gameState.selectedPiece;
+    const possibleMoves = getPossibleMoves(row, col);
 
+    for (let move of possibleMoves) {
+        const [endRow, endCol] = move;
+        const squareId = endRow *8 + endCol;
+        squareElement[squareId].classList.add('highlight');
+    }
 }
 
 function clearHighlights() {
@@ -39,16 +52,48 @@ function handleMoveClick(event) {
 
 }
 
-function getPossibleMoves() {
+function getPossibleMoves(row, col, piece) {
+    const moves = [];
+    const directions =[];
 
+    //Determine move directions
+    if (piece === 'r' || piece === 'rk') {
+        directions.push([-1, -1], [-1, 1]);
+    } else if (piece === 'b' || piece === 'bk') {
+        directions.push([1, -1], [1, 1]);
+    }
+    //Additional directions for kings
+    if (piece === 'rk' || piece === 'bk') {
+        if (piece === 'r' || piece === 'rk') {
+            directions.push([1, -1], [1, 1]);
+        } else if (piece === 'b' || piece === 'bk') {
+            directions.push([-1, -1], [-1, 1]);
+        }
+    }
+
+    //Calculate possible moves
+    for (const [dRow, dCol] of directions) {
+        const newRow = row + dRow;
+        const newCol = col + dCol;
+        if (isValidMove(newRow, newCol)) {
+            moves.push([newRow, newCol]);
+        }
+    }
+
+    return moves;
 }
 
 function getCaptures() {
 
 }
 
-function isValidMove() {
-
+function isValidMove(row, col) {
+    // Check if the move is within the board
+    if (row >= 0 && row < 8 && col >= 0 && col < 8) {
+        // Check if the target square is empty
+        return gameState.board[row][col] === "";
+    }
+    return false;
 }
 
 function isValidCapture() {
@@ -100,11 +145,5 @@ function resetGame() {
 
 }
 
-
-
-
-/*----------------------------- Event Listeners -----------------------------*/
-boardElement.addEventListener('click', handlePieceClick);
-resetButton.addEventListener('click', resetGame);
 
 initBoard();
