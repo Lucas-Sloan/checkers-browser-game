@@ -21,6 +21,7 @@ function initBoard() {
         square.addEventListener('click' , handleMoveClick);
     });
     resetButton.addEventListener('click', resetGame);
+    highlightMovablePieces();
 }
 
 function handlePieceClick(event) {
@@ -146,6 +147,8 @@ function handleMoveClick(event) {
         switchPlayer();
         gameState.selectedPiece = null;
     }
+
+    highlightMovablePieces();
 }
 
 function getPossibleMoves(row, col, piece) {
@@ -319,6 +322,7 @@ function switchPlayer() {
     } else {
         gameState.currentPlayer = 'black'
     }
+    highlightMovablePieces();
 }
 
 function canAnyPieceCapture() {
@@ -338,6 +342,33 @@ function canAnyPieceCapture() {
     }
     //if no pieces can capture, return false
     return false;
+}
+
+function highlightMovablePieces() {
+    document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+
+    const anyPieceCanCapture = canAnyPieceCapture();
+    //iterate through rows
+    for( let row = 0; row < 8; row++) {
+        //iterate through columns
+        for (let col = 0; col < 8; col++) {
+            //check if piece belongs to current player
+            if (gameState.board[row][col].charAt(0) === gameState.currentPlayer.charAt(0)) {
+                //get possible moves and capture moves for piece
+                const { moves, captureMoves } = getPossibleMoves(row, col, gameState.board[row][col]);
+                //if there are any valid capture moves, highlight
+                if (anyPieceCanCapture && captureMoves.length > 0) {
+                    const squareId = row * 8 + col;
+                    squareElement[squareId].classList.add('highlight');
+                }
+                //if no pieces can capture, highlight valid moves
+                else if (!anyPieceCanCapture && moves.length > 0) {
+                    const squareId = row * 8 + col;
+                    squareElement[squareId].classList.add('highlight');
+                }
+            }    
+        }
+    }
 }
 
 function checkWin() {
