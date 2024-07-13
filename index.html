@@ -20,6 +20,7 @@
                 <li>At the start, checkers move forward towards the opponent's side.</li>
                 <li>Each turn, move one checker one space, unless jumping.</li>
                 <li>Players alternate turns, each moving their checker forward diagonally.</li>
+                <li>If a capture can be made on your turn, it must be captured that turn</li>
                 <li>If a jump lands you in position to jump another opponent's checker, you can make a “double jump” in one move.</li>
                 <li>A double jump involves making two jumps consecutively within a single turn.</li>
                 <li>Once a checker becomes a “king” by reaching the last row, it can move diagonally forward or backward.</li>
@@ -114,8 +115,16 @@
         </section>
         <section class="score">
             <h2>Score:</h2>
-            <h3>0</h3>
-            <h3>0</h3>
+            <div class="scoreboard">
+                <div class="score-item">
+                    <img src="../images/black-king.png" alt="Black Pawn" class="score-image">
+                    <h3 class="score-value">0</h3>
+                </div>
+                <div class="score-item">
+                    <img src="../images/red-king.png" alt="Red Pawn" class="score-image">
+                    <h3 class="score-value">0</h3>
+                </div>
+            </div>
             <button id="reset">Play Again</button>
         </section>
     </div>
