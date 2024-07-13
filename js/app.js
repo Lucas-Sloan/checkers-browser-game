@@ -215,7 +215,17 @@ function movePiece(start, endRow, endCol) {
     if (Math.abs(endRow - row) === 2 && Math.abs(endCol - col) === 2) {
         const capturedRow = (row + endRow) / 2;
         const capturedCol = (col + endCol) /2;
+        const capturedPiece = gameState.board[capturedRow][capturedCol];
         gameState.board[capturedRow][capturedCol] = '';
+
+        //Increment score based on captured piece
+        if (capturedPiece === 'r' || capturedPiece === 'rk') {
+            //Black captures red
+            gameState.blackScore += 1 ; 
+        } else if (capturedPiece === 'b' || capturedPiece === 'bk') {
+            gameState.redScore += 1;
+        }
+        renderScore();
     }
 
     //Move piece to target position
@@ -369,6 +379,14 @@ function highlightMovablePieces() {
             }    
         }
     }
+}
+
+function renderScore() {
+    const redScoreElement = document.querySelector('.score-item:nth-child(2) .score-value');
+    const blackScoreElement = document.querySelector('.score-item:nth-child(1) .score-value');
+
+    redScoreElement.textContent = gameState.redScore;
+    blackScoreElement.textContent = gameState.blackScore;
 }
 
 function checkWin() {
