@@ -433,8 +433,8 @@ function resetGame() {
     gameState.selectedPiece = null,
     
     renderBoard();
-    highlightMovablePieces();
     clearHighlights();
+    highlightMovablePieces();
     renderScore();
     document.getElementById('winnerMessage').innerText = '';
 }
