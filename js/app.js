@@ -21,8 +21,8 @@ function initBoard() {
         square.addEventListener('click' , handleMoveClick);
     });
     resetButton.addEventListener('click', resetGame);
-    highlightMovablePieces();
     resetGame()
+    highlightMovablePieces();
 }
 
 function handlePieceClick(event) {
@@ -150,6 +150,7 @@ function handleMoveClick(event) {
     }
 
     highlightMovablePieces();
+    checkWin();
 }
 
 function getPossibleMoves(row, col, piece) {
@@ -391,7 +392,15 @@ function renderScore() {
 }
 
 function checkWin() {
+    const redPieces = gameState.board.flat().filter(piece => piece === 'r' || piece === 'rk').length;
+    const blackPieces = gameState.board.flat().filter(piece => piece === 'b' || piece === 'bk').length;
 
+    if (blackPieces === 0) {
+        document.getElementById('winnerMessage').innerText = 'Red Wins!';
+    
+    } else if (redPieces === 0) {
+        document.getElementById('winnerMessage').innerText = 'Black Wins!';
+    }
 }
 
 function resetGame() {
@@ -423,10 +432,11 @@ function resetGame() {
     
     gameState.selectedPiece = null,
     
-    clearHighlights();
     renderBoard();
+    highlightMovablePieces();
+    clearHighlights();
     renderScore();
-
+    document.getElementById('winnerMessage').innerText = '';
 }
 
 
