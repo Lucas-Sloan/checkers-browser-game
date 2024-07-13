@@ -22,6 +22,7 @@ function initBoard() {
     });
     resetButton.addEventListener('click', resetGame);
     highlightMovablePieces();
+    resetGame()
 }
 
 function handlePieceClick(event) {
@@ -394,6 +395,37 @@ function checkWin() {
 }
 
 function resetGame() {
+    gameState.board = [
+    
+        ["", "r", "", "r", "", "r", "", "r"],
+    
+        ["r", "", "r", "", "r", "", "r", ""],
+    
+        ["", "r", "", "r", "", "r", "", "r"],
+    
+        ["", "", "", "", "", "", "", ""],
+    
+        ["", "", "", "", "", "", "", ""],
+    
+        ["b", "", "b", "", "b", "", "b", ""],
+    
+        ["", "b", "", "b", "", "b", "", "b"],
+    
+        ["b", "", "b", "", "b", "", "b", ""]
+    
+    ],
+    
+    gameState.currentPlayer = "black",
+    
+    gameState.redScore = 0,
+    
+    gameState.blackScore = 0,
+    
+    gameState.selectedPiece = null,
+    
+    clearHighlights();
+    renderBoard();
+    renderScore();
 
 }
 
