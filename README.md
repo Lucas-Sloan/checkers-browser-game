@@ -39,8 +39,8 @@
 
   | Description       | Screenshot                                                |
   |:-----------------:|-----------------------------------------------------------|
-  | <h3>Desktop</h3>  | ![Checkers Board](images/checkers-board.png) width="700"  |
-  | <h3 align="center">Mobile</h3> | ![Checkers Mobile](images/checkers-mobile.png) width="700" |
+  | <h3>Desktop</h3>  | <img src="images/checkers-board.png" width="700" />       |
+  | <h3 align="center">Mobile</h3> | <img src="images/checkers-mobile.png" width="700" /> |
 
 
 </div>
