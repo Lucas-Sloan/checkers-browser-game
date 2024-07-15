@@ -13,8 +13,9 @@
 
   ##### Lucas Sloan
 
-  ![LinkedIn Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=LinkedIn&logoColor=blue)(www.linkedin.com/in/lucas-sloan-892802211)
-  ![Github Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=Github&logoColor=white)(https://github.com/Lucas-Sloan)
+  [![LinkedIn Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=LinkedIn&logoColor=blue)](https://www.linkedin.com/in/lucas-sloan-892802211)
+  [![Github Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=Github&logoColor=white)](https://github.com/Lucas-Sloan)
+
 
   ## :pencil: Description
 
@@ -36,16 +37,11 @@
 
   ## :camera_flash: Screenshots 
 
-  |   Description | Screenshot | 
-  |:-------------:| -----------|
-  | <h3>Desktop</h3> |
-    ![Checkers Board](images/checkers-board.png)
-    width="700"
-  /> |
-  | <h3 align="center">Mobile</h3> |
-    ![Checkers Mobile](images/checkers-mobile.png)
-  width="700"
-  /> |
+  | Description       | Screenshot                                                |
+  |:-----------------:|-----------------------------------------------------------|
+  | <h3>Desktop</h3>  | ![Checkers Board](images/checkers-board.png) width="700"  |
+  | <h3 align="center">Mobile</h3> | ![Checkers Mobile](images/checkers-mobile.png) width="700" |
+
 
 </div>
 
@@ -63,7 +59,7 @@ https://www.shutterstock.com/image-vector/checkers-board-game-pieces-vector-260n
 
 ## :satellite: Future Goals
 
-- [:X:] Toggle Between Single Player and Multiplayer
+- [ ] Toggle Between Single Player and Multiplayer
+- [ ] Have a CPU for Single Players to Play Against
 
-- [:X:] Have a cpu for Single Players to play against
 </div>
