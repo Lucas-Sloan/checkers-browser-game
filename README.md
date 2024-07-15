@@ -1,7 +1,7 @@
 # Checkers-browser-game
 <div id="header" align="center">
 
-  ![Checkers Board](images/checkers-board.png)
+  <img src="https://images.pexels.com/photos/7566201/pexels-photo-7566201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" width="800" height="400">
 
 </div>
 
@@ -13,7 +13,8 @@
 
   ##### Lucas Sloan
 
-  [![LinkedIn Badge](https://img.shields.io/badge/-@lucas-sloan-blue?style=flat&logo=Linkedin&logoColor=black)](www.linkedin.com/in/lucas-sloan-892802211)
+  ![LinkedIn Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=LinkedIn&logoColor=blue)(www.linkedin.com/in/lucas-sloan-892802211)
+  ![Github Badge](https://img.shields.io/badge/%40LucasSloan-black?style=flat&logo=Github&logoColor=white)(https://github.com/Lucas-Sloan)
 
   ## :pencil: Description
 
@@ -28,6 +29,23 @@
  - I chose this Checkers game because the alternating turns and board layout reminded me of a tic-tac-toe game I previously created.
  - I enjoyed the challenge of designing the checkerboard pattern. 
  - It involved setting up coordinates, determining possible moves, and implementing the movement and capture logic, all of which were rewarding to figure out.
+
+</div>
+
+<div id="screenshots" align="center">
+
+  ## :camera_flash: Screenshots 
+
+  |   Description | Screenshot | 
+  |:-------------:| -----------|
+  | <h3>Desktop</h3> |
+    ![Checkers Board](images/checkers-board.png)
+    width="700"
+  /> |
+  | <h3 align="center">Mobile</h3> |
+    ![Checkers Mobile](images/checkers-mobile.png)
+  width="700"
+  /> |
 
 </div>
 
