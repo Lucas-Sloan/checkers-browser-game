@@ -13,7 +13,7 @@
 
   ##### Lucas Sloan
 
-  [![LinkedIn Badge](https://img.shields.io/badge/-@amarpan-blue?style=flat&logo=Linkedin&logoColor=black)](www.linkedin.com/in/lucas-sloan-892802211)
+  [![LinkedIn Badge](https://img.shields.io/badge/-@Lucas-Sloan-blue?style=flat&logo=Linkedin&logoColor=black)](www.linkedin.com/in/lucas-sloan-892802211)
 
   ## :pencil: Description
 
@@ -36,13 +36,10 @@ https://www.shutterstock.com/image-vector/checkers-board-game-pieces-vector-260n
 ![JavaScript](https://img.shields.io/badge/-JavaScript-05122A?style=flat&logo=javascript)
 ![HTML5](https://img.shields.io/badge/-HTML5-05122A?style=flat&logo=html5)
 ![CSS3](https://img.shields.io/badge/-CSS-05122A?style=flat&logo=css3)
-</div>
 
-<div>
 ## :satellite: Future Goals
 
 - [:X:] Toggle Between Single Player and Multiplayer
 
 - [:X:] Have a cpu for Single Players to play against
-
 </div>
