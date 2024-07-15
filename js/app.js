@@ -335,6 +335,7 @@ function switchPlayer() {
         gameState.currentPlayer = 'black'
     }
     highlightMovablePieces();
+    checkWin();
 }
 
 function canAnyPieceCapture() {
@@ -400,7 +401,31 @@ function checkWin() {
     
     } else if (redPieces === 0) {
         document.getElementById('winnerMessage').innerText = 'Black Wins!';
+
+    } else if (!hasValidMoves('black')) {
+        document.getElementById('winnerMessage').innerText = 'Red Wins!';
+
+    } else if (!hasValidMoves('red')) {
+        document.getElementById('winnerMessage').innerText = 'Black Wins!';
+
     }
+}
+
+function hasValidMoves(player) {
+     //iterate through rows
+     for( let row = 0; row < 8; row++) {
+        //iterate through columns
+        for (let col = 0; col < 8; col++) {
+            //check if piece belongs to current player
+            if (gameState.board[row][col].charAt(0) === player.charAt(0)) {
+                const { moves, captureMoves } = getPossibleMoves(row, col, gameState.board[row][col]);
+                if (moves.length > 0 || captureMoves.length > 0) {
+                    return true;
+                }
+            }
+        }
+     }
+     return false;
 }
 
 function resetGame() {
