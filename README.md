@@ -42,8 +42,16 @@
   | <h3>Desktop</h3>  | <img src="images/checkers-board.png" width="700" />       |
   | <h3 align="center">Mobile</h3> | <img src="images/checkers-mobile.png" width="700" /> |
 
+  ## :spiral_notepad: Pre-Planning
+  <details>
+    <summary>Psuedocode</summary>
+    <img src="images/Preplanning.png" alt="Psuedocode" />
+  </details>
 
-</div>
+  <details>
+    <summary>Rough Draft</summary>
+    <img src="images/Checkers.png" alt="Rough image" />
+  </details>
 
 
 <div id="assets" align="center">
