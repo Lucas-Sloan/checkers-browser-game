@@ -9,7 +9,7 @@
 
   # Checkers
 
-  ### [Filler Live Link](https://github.com/Lucas-Sloan/checkers-browser-game)
+  ### [Play Now](https://lucas-sloan.github.io/checkers-browser-game/)
 
   ##### Lucas Sloan
 
